@@ -24,6 +24,10 @@ HOW TO USE:
 
 TO DO:
 
+Colours
+	if chosen white modulations not visible anymore
+	dark colours make it too dark
+
 highlevel
 	remove dc offset switch (steep highpass)
 		FIR or IIR? which freq? how steep?
@@ -34,7 +38,7 @@ Pan Knob
 	when value near 0 definitely draw C and not 0
 
 Knob2
-	..
+	double-clicks don't always work
 
 SplineEditor
 	Sometimes selection range shows wrong range

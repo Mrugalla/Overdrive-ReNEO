@@ -17,3 +17,7 @@ a lot on various synth patches and autotuned vocals and when I started working o
 vibe was missing in my own productions for a long time, so I'm very happy I'm able to bring it back with this plugin.
 
 ![screenshot](https://user-images.githubusercontent.com/54960398/176905057-9a4fa847-f206-404f-8bb7-ea77bc226d8b.png)
+
+TUTORIAL:
+
+https://youtu.be/ocddhUJ81Mk

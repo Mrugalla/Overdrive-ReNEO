@@ -11,4 +11,4 @@ turned up the input gain and added 2 new parameters that do more than just dry/w
 that can be used to pan the distortion parameter to L/R or M/S. You can also turn up 4x oversampling if you want to, but that feature is
 quite cpu-intensive, because I still suck at making efficient convolution. Hope you all have a lot of fun with this :)
 
-https://user-images.githubusercontent.com/54960398/176905057-9a4fa847-f206-404f-8bb7-ea77bc226d8b.png
+![screenshot](https://user-images.githubusercontent.com/54960398/176905057-9a4fa847-f206-404f-8bb7-ea77bc226d8b.png)

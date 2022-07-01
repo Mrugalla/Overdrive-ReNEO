@@ -11,4 +11,9 @@ turned up the input gain and added 2 new parameters that do more than just dry/w
 that can be used to pan the distortion parameter to L/R or M/S. You can also turn up 4x oversampling if you want to, but that feature is
 quite cpu-intensive, because I still suck at making efficient convolution. Hope you all have a lot of fun with this :)
 
+The sound of this plugin is really unique. I'm not a guitar player myself but I was told it's not what you'd usually
+expect from an overdrive pedal. I personally love it for all my memories with it. A long time ago I used mda overdrive
+a lot on various synth patches and autotuned vocals and when I started working on this project I immediatly noticed that this
+vibe was missing in my own productions for a long time, so I'm very happy I'm able to bring it back with this plugin.
+
 ![screenshot](https://user-images.githubusercontent.com/54960398/176905057-9a4fa847-f206-404f-8bb7-ea77bc226d8b.png)

@@ -8,7 +8,7 @@ https://github.com/hollance/mda-plugins-juce
 I used his mda overdrive code as the foundation, but changed it a lot to not only bring mda into the present with a modern code style,
 but also by (hopefully) improving what it does to the sound. For example I replaced the 6db/oct filter with a 12db/oct one, I massively
 turned up the input gain and added 2 new parameters that do more than just dry/wet-mixing the overdrive sound. Also added a pan-knob
-that can be used to pan the distortion parameter to L/R or M/S. You can also turn up 4x oversampling if you want to, but that feature is
+that can be used to pan the distortion parameter to L/R or M/S. You can also turn up 2x oversampling if you want to, but that feature is
 quite cpu-intensive, because I still suck at making efficient convolution. Hope you all have a lot of fun with this :)
 
 The sound of this plugin is really unique. I'm not a guitar player myself but I was told it's not what you'd usually

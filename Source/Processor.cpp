@@ -169,7 +169,7 @@ namespace audio
             params[PID::GainIn]->getValueDenorm(),
 #endif
             params[PID::Mix]->getValMod(),
-            params[PID::Gain]->getValModDenorm()
+            params[PID::GainWet]->getValModDenorm()
 #if PPDHasPolarity
             , (params[PID::Polarity]->getValMod() > .5f ? -1.f : 1.f)
 #endif
@@ -219,10 +219,11 @@ namespace audio
         if (midSideEnabled)
             decodeMS(samples, numSamples);
 #endif
-
+        
         dryWetMix.processOutGain(samples, numChannels, numSamples);
+        const auto gainOutDb = params[PID::GainOut]->getValModDenorm();
+        dryWetMix.processMix(samples, gainOutDb, numChannels, numSamples);
         meters.processOut(constSamples, numChannels, numSamples);
-        dryWetMix.processMix(samples, numChannels, numSamples);
     }
 
     // PROCESSOR
@@ -230,6 +231,7 @@ namespace audio
     Processor::Processor() :
         ProcessorBackEnd(),
         pinkNoise(-18.f),
+        gate(),
         overdrive(pinkNoise, params[PID::Muffle]->range)
     {
     }
@@ -251,6 +253,7 @@ namespace audio
 
         meters.prepare(sampleRateF, maxBlockSize);
         
+        gate.prepare(sampleRateUpF, blockSizeUp);
         overdrive.prepare(sampleRateUpF, blockSizeUp);
        
         setLatencySamples(latency);
@@ -269,7 +272,8 @@ namespace audio
         if (buf == nullptr)
             return;
 
-        processBlockCustom(
+        processBlockCustom
+        (
             buf->getArrayOfWritePointers(),
             buf->getNumChannels(),
             buf->getNumSamples()
@@ -278,14 +282,20 @@ namespace audio
         processBlockEnd(buffer);
     }
 
-    void Processor::processBlockCustom(float** samples, int numChannels, int numSamples) noexcept
+    void Processor::processBlockCustom(float* const* samples, int numChannels, int numSamples) noexcept
     {
+        auto& gateThresholdParam = *params[PID::GateThreshold];
+        const auto gateThresholdDb = gateThresholdParam.getValModDenorm();
+        if (gateThresholdDb > gateThresholdParam.range.start)
+            gate(samples, numChannels, numSamples, gateThresholdDb);
+        else
+            gate.processDisabled();
+        
         const auto muffleHz = params[PID::Muffle]->getValModDenorm();
         const auto drive = params[PID::Drive]->getValMod();
         const auto pan = params[PID::Pan]->getValModDenorm();
-
         const auto scrap = params[PID::Scrap]->getValMod();
-
+        
         overdrive
         (
             samples,

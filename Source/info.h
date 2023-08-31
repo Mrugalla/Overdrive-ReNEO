@@ -37,7 +37,7 @@ when saving a modpatch the preset browser needs to update its list too
 Pan Knob
 	when value near 0 definitely draw C and not 0
 
-Knob2
+Knob
 	double-clicks don't always work
 
 SplineEditor

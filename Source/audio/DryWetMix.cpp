@@ -25,7 +25,8 @@ namespace audio
 		}
 	}
 
-	void DryWetMix::LatencyCompensation::operator()(float** dry, float** inputSamples, int numChannels, int numSamples) noexcept
+	void DryWetMix::LatencyCompensation::operator()(float* const* dry, float* const* inputSamples,
+		int numChannels, int numSamples) noexcept
 	{
 		if (latency != 0)
 		{
@@ -62,6 +63,7 @@ namespace audio
 
 		mixSmooth(1.f),
 		gainSmooth(1.f),
+		gainOutSmooth(1.f),
 
 		dryBuf()
 	{}
@@ -72,6 +74,7 @@ namespace audio
 
 		mixSmooth.makeFromDecayInMs(20.f, sampleRate);
 		gainSmooth.makeFromDecayInMs(20.f, sampleRate);
+		gainOutSmooth.makeFromDecayInMs(20.f, sampleRate);
 
 		dryBuf.setSize(2, blockSize, false, true, false);
 
@@ -79,7 +82,7 @@ namespace audio
 			buf.resize(blockSize);
 	}
 
-	void DryWetMix::saveDry(float** samples, int numChannels, int numSamples,
+	void DryWetMix::saveDry(float* const* samples, int numChannels, int numSamples,
 #if PPDHasGainIn
 		float gainInP,
 #endif
@@ -92,7 +95,8 @@ namespace audio
 #endif
 	) noexcept
 	{
-		latencyCompensation(
+		latencyCompensation
+		(
 			dryBuf.getArrayOfWritePointers(),
 			samples,
 			numChannels,
@@ -116,7 +120,7 @@ namespace audio
 #if PPDHasPolarity
 		gainP *= polarityP;
 #endif
-		gainSmooth(bufs[Gain].data(), juce::Decibels::decibelsToGain(gainP), numSamples);
+		gainSmooth(bufs[GainWet].data(), juce::Decibels::decibelsToGain(gainP), numSamples);
 
 #if PPDEqualLoudnessMix
 		for (auto s = 0; s < numSamples; ++s)
@@ -133,9 +137,10 @@ namespace audio
 #endif
 	}
 
-	void DryWetMix::processBypass(float** samples, int numChannels, int numSamples) noexcept
+	void DryWetMix::processBypass(float* const* samples, int numChannels, int numSamples) noexcept
 	{
-		latencyCompensation(
+		latencyCompensation
+		(
 			dryBuf.getArrayOfWritePointers(),
 			samples,
 			numChannels,
@@ -153,17 +158,20 @@ namespace audio
 		}
 	}
 
-	void DryWetMix::processOutGain(float** samples, int numChannels, int numSamples) const noexcept
+	void DryWetMix::processOutGain(float* const* samples, int numChannels, int numSamples) const noexcept
 	{
 		for (auto ch = 0; ch < numChannels; ++ch)
 		{
-			const auto gainBuf = bufs[Gain].data();
+			const auto gainBuf = bufs[GainWet].data();
 			SIMD::multiply(samples[ch], gainBuf, numSamples);
 		}
 	}
 
-	void DryWetMix::processMix(float** samples, int numChannels, int numSamples) const noexcept
+	void DryWetMix::processMix(float* const* samples, float gainOutDb, int numChannels, int numSamples) noexcept
 	{
+		auto gainOutBuf = bufs[GainOut].data();
+		gainOutSmooth(gainOutBuf, Decibels::decibelsToGain(gainOutDb), numSamples);
+
 		for (auto ch = 0; ch < numChannels; ++ch)
 		{
 			const auto dry = dryBuf.getReadPointer(ch);
@@ -173,7 +181,7 @@ namespace audio
 			auto smpls = samples[ch];
 
 			for (auto s = 0; s < numSamples; ++s)
-				smpls[s] = dry[s] * mixD[s] + smpls[s] * mixW[s];
+				smpls[s] = (dry[s] * mixD[s] + smpls[s] * mixW[s]) * gainOutBuf[s];
 		}
 	}
 }

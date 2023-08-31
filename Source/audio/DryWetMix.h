@@ -15,7 +15,7 @@ namespace audio
 			void prepare(int, int);
 
 			/*dry,inputSamples,numChannels,numSamples*/
-			void operator()(float**, float**, int, int) noexcept;
+			void operator()(float* const*, float* const*, int, int) noexcept;
 
 		protected:
 			AudioBuffer ring;
@@ -30,7 +30,8 @@ namespace audio
 #endif
 			MixD,
 			MixW,
-			Gain,
+			GainWet,
+			GainOut,
 			NumBufs
 		};
 
@@ -41,8 +42,9 @@ namespace audio
 		void prepare(float, int, int);
 
 		/*samples, numChannels, numSamples, gainInP, mixP, gainP, polarityP, unityGainP*/
-		void saveDry(
-			float**, int, int,
+		void saveDry
+		(
+			float* const*, int, int,
 #if PPDHasGainIn
 			float,
 #endif
@@ -56,13 +58,13 @@ namespace audio
 		) noexcept;
 
 		/*samples, numChannels, numSamples*/
-		void processBypass(float**, int, int) noexcept;
+		void processBypass(float* const*, int, int) noexcept;
 
 		/*samples, numChannels, numSamples*/
-		void processOutGain(float**, int, int) const noexcept;
+		void processOutGain(float* const*, int, int) const noexcept;
 
-		/*samples, numChannels, numSamples*/
-		void processMix(float**, int, int) const noexcept;
+		/*samples, gainOutDb, numChannels, numSamples*/
+		void processMix(float* const*, float, int, int) noexcept;
 
 	protected:
 		LatencyCompensation latencyCompensation;
@@ -72,7 +74,7 @@ namespace audio
 #if PPDHasGainIn
 		Smooth gainInSmooth;
 #endif
-		Smooth mixSmooth, gainSmooth;
+		Smooth mixSmooth, gainSmooth, gainOutSmooth;
 
 		AudioBuffer dryBuf;
 	};

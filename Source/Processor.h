@@ -13,6 +13,7 @@
 #include "audio/Bitcrusher.h"
 #include "audio/NullNoiseSynth.h"
 #include "audio/OverdriveReNEO.h"
+#include "audio/Gate.h"
 
 #include "audio/AudioUtils.h"
 
@@ -95,7 +96,7 @@ private:
 
         void processBlock(AudioBuffer&, juce::MidiBuffer&);
         
-        void processBlockCustom(float** /*samples*/ , int /*numChannels*/, int /*numSamples*/) noexcept;
+        void processBlockCustom(float* const* /*samples*/ , int /*numChannels*/, int /*numSamples*/) noexcept;
 
         void releaseResources() override;
 
@@ -106,6 +107,7 @@ private:
         juce::AudioProcessorEditor* createEditor() override;
 
         PinkNoise pinkNoise;
+        Gate gate;
         OverdriveReNeo overdrive;
     };
 }

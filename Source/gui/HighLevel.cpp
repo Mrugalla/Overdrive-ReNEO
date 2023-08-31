@@ -19,7 +19,7 @@ namespace gui
 #if PPDHasGainIn
 		gainIn(u),
 #endif
-		gainOut(u),
+		gainWet(u), gainOut(u),
 		mix(u),
 #if PPDHasUnityGain && PPDHasGainIn
 		unityGain(u, param::toTooltip(PID::UnityGain)),
@@ -45,12 +45,14 @@ namespace gui
 		fileChooser(nullptr)
 	{
 #if PPDHasPatchBrowser
-		layout.init(
+		layout.init
+		(
 			{ 1, 8, 1, 8, 1, 8, 1, 8, 1, 1 },
-			{ 1, 8, 1, 5, 1, 21, 1, 21, 1, 21, 1, 8, 5 }
+			{ 1, 8, 1, 5, 1, 21, 1, 13, 1, 21, 1, 8, 5 }
 		);
 #else
-		layout.init(
+		layout.init
+		(
 			{ 1, 8, 1, 8, 1, 8, 1, 8, 1, 1 },
 			{ 1, 8, 1, 21, 1, 21, 1, 21, 1, 8, 5 }
 		);
@@ -273,7 +275,9 @@ namespace gui
 		makeParameter(gainIn, PID::GainIn, "In", true, &utils.getMeter(0));
 		addAndMakeVisible(gainIn);
 #endif
-		makeParameter(gainOut, PID::Gain, "Out", true, &utils.getMeter(PPDHasGainIn ? 1 : 0));
+		makeParameter(gainWet, PID::GainWet, "Wet", true);
+		addAndMakeVisible(gainWet);
+		makeParameter(gainOut, PID::GainOut, "Out", true, &utils.getMeter(PPDHasGainIn ? 1 : 0));
 		addAndMakeVisible(gainOut);
 		makeParameter(mix, PID::Mix, "Mix");
 		addAndMakeVisible(mix);
@@ -395,10 +399,11 @@ namespace gui
 #endif
 		layout.place(gainOut, 5.5f, 5.f + patchBrowserOffset, 2.5f, 2.f, true);
 #else
-		layout.place(gainOut, 3.f, 5.2f + patchBrowserOffset, 3.f, 1.6f, true);
+		layout.place(gainWet, 3.f, 5.2f + patchBrowserOffset, 3.f, 1.6f, true);
 #endif
 
-		layout.place(mix, 3.f, 7.f + patchBrowserOffset, 3.f, 1.f, true);
+		layout.place(mix, 3.f, 7.f + patchBrowserOffset, 1.5f, 1.f, false);
+		layout.place(gainOut, 4.5f, 7.f + patchBrowserOffset, 1.5f, 1.f, false);
 
 		layout.place(power, 1.f, 9.f + patchBrowserOffset, 1.f, 1.f, true);
 #if PPDHasPolarity

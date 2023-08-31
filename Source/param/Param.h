@@ -22,7 +22,8 @@ namespace param
 		GainIn,
 #endif
 		Mix,
-		Gain,
+		GainWet,
+		GainOut,
 #if PPDHasPolarity
 		Polarity,
 #endif
@@ -42,6 +43,7 @@ namespace param
 		Drive,
 		Scrap,
 		Pan,
+		GateThreshold,
 
 		NumParams
 	};

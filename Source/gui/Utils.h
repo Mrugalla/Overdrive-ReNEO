@@ -67,8 +67,8 @@ namespace gui
 
 		Component& pluginTop;
 		float thicc;
-	protected:
 		Processor& audioProcessor;
+	protected:
 		Params& params;
 		EventSystem eventSystem;
 		Evt evt;

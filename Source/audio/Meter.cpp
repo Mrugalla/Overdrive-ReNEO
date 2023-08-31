@@ -32,7 +32,7 @@ namespace audio
 	}
 
 #if PPDHasGainIn
-	void Meters::processIn(const float** samples, int numChannels, int numSamples) noexcept
+	void Meters::processIn(const float* const* samples, int numChannels, int numSamples) noexcept
 	{
 		wHead(numSamples);
 
@@ -40,7 +40,7 @@ namespace audio
 	}
 #endif
 
-	void Meters::processOut(const float** samples, int numChannels, int numSamples) noexcept
+	void Meters::processOut(const float* const* samples, int numChannels, int numSamples) noexcept
 	{
 #if !PPDHasGainIn
 		wHead(numSamples);
@@ -53,7 +53,7 @@ namespace audio
 		return vals[i].env;
 	}
 
-	void Meters::process(Val& val, const float** samples, int numChannels, int numSamples) noexcept
+	void Meters::process(Val& val, const float* const* samples, int numChannels, int numSamples) noexcept
 	{
 		auto& rect = val.rect;
 		auto& vVal = val.val;
@@ -72,7 +72,8 @@ namespace audio
 				if (w == 0)
 				{
 					vVal = std::sqrt(rect * lenInv);
-					val.env.store(envFol.process(
+					val.env.store(envFol.process
+					(
 						vVal,
 						RiseInMs,
 						FallInMs
@@ -141,7 +142,8 @@ namespace audio
 				if (w == 0)
 				{
 					vVal = rect * .5f;
-					val.env.store(envFol.process(
+					val.env.store(envFol.process
+					(
 						vVal,
 						RiseInMs,
 						FallInMs

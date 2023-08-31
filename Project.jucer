@@ -6,7 +6,7 @@
               pluginCharacteristicsValue="pluginWantsMidiIn" pluginDesc="XYXYXY"
               pluginManufacturer="Mrugalla" pluginManufacturerCode="Mrug" pluginCode="ID83"
               pluginVSTNumMidiInputs="1" pluginVST3Category="Fx" cppLanguageStandard="latest"
-              pluginName="Overdrive ReNEO" defines="PPDEditorWidth=774&#10;PPDEditorHeight=448&#10;&#10;PPDHasEditor=true&#10;PPDHasPatchBrowser=true&#10;&#10;PPDHasGainIn=false&#10;PPDHasUnityGain=true&#10;PPDHasHQ=true&#10;PPDHasStereoConfig=true&#10;PPDHasPolarity=false&#10;&#10;PPDEqualLoudnessMix=false&#10;&#10;PPDFPSKnobs=30&#10;PPDFPSMeters=30.f&#10;PPDFPSTextEditor=3&#10;&#10;PPDFPSValueBubble=24.f&#10;PPDValueBubbleVisibleTimeMs=1500.f&#10;&#10;PPDMetersUseRMS=false&#10;&#10;PPD_GainIn_Min=-24.f&#10;PPD_GainIn_Max=24.f&#10;PPD_GainOut_Min=-24.f&#10;PPD_GainOut_Max=24.f&#10;PPD_UnityGainDefault=true&#10;&#10;PPD_DebugFormularParser=false&#10;&#10;PPDPitchShifterSizeMs=1000.f&#10;PPDPitchShifterNumVoices=7">
+              pluginName="Overdrive ReNEO" defines="PPDEditorWidth=774&#10;PPDEditorHeight=448&#10;&#10;PPDHasEditor=true&#10;PPDHasPatchBrowser=true&#10;&#10;PPDHasGainIn=false&#10;PPDHasUnityGain=true&#10;PPDHasHQ=true&#10;PPDHasStereoConfig=true&#10;PPDHasPolarity=false&#10;&#10;PPDEqualLoudnessMix=false&#10;&#10;PPDFPSKnobs=30&#10;PPDFPSMeters=30.f&#10;PPDFPSTextEditor=3&#10;&#10;PPDFPSValueBubble=24.f&#10;PPDValueBubbleVisibleTimeMs=1500.f&#10;&#10;PPDMetersUseRMS=false&#10;&#10;PPD_GainIn_Min=-24.f&#10;PPD_GainIn_Max=24.f&#10;PPD_GainOut_Min=-30.f&#10;PPD_GainOut_Max=30.f&#10;PPD_UnityGainDefault=true&#10;&#10;PPD_DebugFormularParser=false&#10;&#10;PPDPitchShifterSizeMs=1000.f&#10;PPDPitchShifterNumVoices=7">
   <MAINGROUP id="c82PPq" name="Overdrive ReNEO">
     <GROUP id="{329F0704-CF49-5A90-357A-72806BBA6C7A}" name="Source">
       <GROUP id="{C3E83797-8352-773C-9028-12ECA83F553B}" name="svg">
@@ -104,6 +104,9 @@
         <FILE id="KPtX3O" name="DryWetMix.h" compile="0" resource="0" file="Source/audio/DryWetMix.h"/>
         <FILE id="dgpmul" name="EnvelopeFollower.h" compile="0" resource="0"
               file="Source/audio/EnvelopeFollower.h"/>
+        <FILE id="VbZtIG" name="Gate.h" compile="0" resource="0" file="Source/audio/Gate.h"/>
+        <FILE id="n6kiOn" name="Lowpass.cpp" compile="1" resource="0" file="Source/audio/Lowpass.cpp"/>
+        <FILE id="ycGko9" name="Lowpass.h" compile="0" resource="0" file="Source/audio/Lowpass.h"/>
         <FILE id="kQwYTy" name="Meter.cpp" compile="1" resource="0" file="Source/audio/Meter.cpp"/>
         <FILE id="TN2ewh" name="Meter.h" compile="0" resource="0" file="Source/audio/Meter.h"/>
         <FILE id="vVTypK" name="MIDILearn.cpp" compile="1" resource="0" file="Source/audio/MIDILearn.cpp"/>

@@ -45,5 +45,4 @@ namespace audio
         rms /= static_cast<Float>(size);
         return std::sqrt(rms);
     }
-
 }

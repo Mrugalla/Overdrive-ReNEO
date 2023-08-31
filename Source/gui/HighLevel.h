@@ -38,7 +38,7 @@ namespace gui
 #if PPDHasGainIn
 		Knob gainIn;
 #endif
-		Knob gainOut;
+		Knob gainWet, gainOut;
 		Knob mix;
 #if PPDHasUnityGain && PPDHasGainIn
 		Button unityGain;

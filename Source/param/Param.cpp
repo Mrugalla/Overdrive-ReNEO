@@ -24,7 +24,8 @@ namespace param
 		case PID::GainIn: return "Gain In";
 #endif
 		case PID::Mix: return "Mix";
-		case PID::Gain: return "Gain Out";
+		case PID::GainWet: return "Gain Wet";
+		case PID::GainOut: return "Gain Out";
 #if PPDHasHQ
 		case PID::HQ: return "HQ";
 #endif
@@ -45,6 +46,7 @@ namespace param
 		case PID::Drive: return "Drive";
 		case PID::Scrap: return "Scrap";
 		case PID::Pan: return "Pan";
+		case PID::GateThreshold: return "Gate Threshold";
 
 		default: return "Invalid Parameter Name";
 		}
@@ -70,8 +72,9 @@ namespace param
 #if PPDHasGainIn
 		case PID::GainIn: return "Apply input gain to the wet signal.";
 #endif
-		case PID::Mix: return "Mix the dry with the wet signal.";
-		case PID::Gain: return "Apply output gain to the wet signal.";
+		case PID::Mix: return "Mix the dry with the wet output signal.";
+		case PID::GainWet: return "Apply gain to the wet output signal.";
+		case PID::GainOut: return "Apply gain to the mixed output signal.";
 #if PPDHasHQ
 		case PID::HQ: return "Turn on HQ to apply 2x Oversampling to the signal.";
 #endif
@@ -91,6 +94,7 @@ namespace param
 		case PID::Drive: return "Turn this parameter up to drive your signal into distortion.";
 		case PID::Scrap: return "The essence of this parameter reminds me of scrap metal, so that's it's name I guess.";
 		case PID::Pan: return "A channel-offset to the drive. (L/R or M/S)";
+		case PID::GateThreshold: return "Sets the threshold for the pre-overdrive gate. Turn down to disable entirely.";
 
 		default: return "Invalid Tooltip.";
 		}
@@ -819,7 +823,8 @@ namespace param
 		params.push_back(makeParam(PID::GainIn, state, 0.f, makeRange::withCentre(PPD_GainIn_Min, PPD_GainIn_Max, 0.f), Unit::Decibel));
 #endif
 		params.push_back(makeParam(PID::Mix, state));
-		params.push_back(makeParam(PID::Gain, state, 0.f, makeRange::withCentre(PPD_GainOut_Min, PPD_GainIn_Max, 0.f), Unit::Decibel));
+		params.push_back(makeParam(PID::GainWet, state, 0.f, makeRange::withCentre(PPD_GainOut_Min, PPD_GainIn_Max, 0.f), Unit::Decibel));
+		params.push_back(makeParam(PID::GainOut, state, 0.f, makeRange::withCentre(PPD_GainOut_Min, PPD_GainIn_Max, 0.f), Unit::Decibel));
 #if PPDHasPolarity
 		params.push_back(makeParam(PID::Polarity, state, 0.f, makeRange::toggle(), Unit::Polarity));
 #endif
@@ -827,10 +832,10 @@ namespace param
 		params.push_back(makeParam(PID::UnityGain, state, (PPD_UnityGainDefault ? 1.f : 0.f), makeRange::toggle(), Unit::Polarity));
 #endif
 #if PPDHasHQ
-		params.push_back(makeParam(PID::HQ, state, 0.f, makeRange::toggle()));
+		params.push_back(makeParam(PID::HQ, state, 1.f, makeRange::toggle(), Unit::Power));
 #endif
 #if PPDHasStereoConfig
-		params.push_back(makeParam(PID::StereoConfig, state, 1.f, makeRange::toggle(), Unit::StereoConfig));
+		params.push_back(makeParam(PID::StereoConfig, state, 0.f, makeRange::toggle(), Unit::StereoConfig));
 #endif
 		params.push_back(makeParam(PID::Power, state, 1.f, makeRange::toggle(), Unit::Power));
 
@@ -840,6 +845,7 @@ namespace param
 		params.push_back(makeParam(PID::Drive, state, 0.f, makeRange::withCentre(0.f, 1.f, 1.f / 4.f)));
 		params.push_back(makeParam(PID::Scrap, state, 0.f));
 		params.push_back(makeParamPan(PID::Pan, state, *this));
+		params.push_back(makeParam(PID::GateThreshold, state, -40.f, makeRange::withCentre(-90.f, 0.f, -30.f), Unit::Decibel));
 
 		// LOW LEVEL PARAMS END
 
